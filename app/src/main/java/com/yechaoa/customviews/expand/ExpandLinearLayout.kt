@@ -47,7 +47,9 @@ class ExpandLinearLayout : LinearLayout {
         }
 
     private fun initView() {
+        //横向的话 稍加修改计算宽度即可
         orientation = VERTICAL
+
         animPercent = 1f
         isOpen = true
     }
@@ -63,9 +65,11 @@ class ExpandLinearLayout : LinearLayout {
 
             //遍历计算高度
             for (index in 0 until childCount) {
+                //这个地方实际使用中除了measuredHeight，以及margin等，也要计算在内
                 if (index == 0) {
                     firstChildHeight = getChildAt(index).measuredHeight
                 }
+                //实际使用时或包括padding等
                 allChildHeight += getChildAt(index).measuredHeight
             }
 
