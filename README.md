@@ -1,10 +1,17 @@
-# CustomViews
+# CustomViews 自定义view集合
 
-自定义view集合
+![](https://img.shields.io/badge/language-kotlin-orange.svg)
+![](https://img.shields.io/hexpm/l/plug.svg)
+![](https://img.shields.io/badge/CSDN-yechaoa-green.svg)
+
+# 效果
 
 | <img src="/gif/expand.gif" width="285"/> | 
 | :--: |
 | expand |
+
+
+后续会慢慢增加，常用的以及一些练习的自定义view。
 
 
 ```
