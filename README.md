@@ -4,6 +4,10 @@
 ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](https://img.shields.io/badge/CSDN-yechaoa-green.svg)
 
+后续会慢慢增加，常用的以及一些练习的自定义view。
+
+会尽可能多的注释，练习亦是学习的过程。
+
 # 效果
 
 | <img src="/gif/expand.gif" width="285"/> | 
@@ -11,8 +15,7 @@
 | expand |
 
 
-后续会慢慢增加，常用的以及一些练习的自定义view。
-
+<br>
 
 ```
    Copyright [2020] [yechaoa]
