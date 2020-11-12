@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
 
 /**
  * Created by yechao on 2020/11/11.
@@ -67,10 +69,15 @@ class ExpandLinearLayout : LinearLayout {
             for (index in 0 until childCount) {
                 //这个地方实际使用中除了measuredHeight，以及margin等，也要计算在内
                 if (index == 0) {
-                    firstChildHeight = getChildAt(index).measuredHeight
+                    firstChildHeight = getChildAt(index).measuredHeight + this.paddingTop + this.paddingBottom
                 }
                 //实际使用时或包括padding等
-                allChildHeight += getChildAt(index).measuredHeight
+                allChildHeight += getChildAt(index).measuredHeight + getChildAt(index).marginTop + getChildAt(index).marginBottom
+
+                //最后一条的时候 加上当前view自身的padding
+                if (index == childCount - 1) {
+                    allChildHeight += this.paddingTop + this.paddingBottom
+                }
             }
 
             // 根据是否展开设置高度
