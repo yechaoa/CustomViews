@@ -21,4 +21,11 @@
         android:text="progress"
         android:textAllCaps="false"  />
 
+    <Button
+        android:id="@+id/btn_randomText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="randomText"
+        android:textAllCaps="false"  />
+
 </LinearLayout>

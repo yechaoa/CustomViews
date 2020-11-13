@@ -11,6 +11,11 @@ import androidx.core.view.marginTop
 /**
  * Created by yechao on 2020/11/11.
  * Describe : 可收起展开的LinearLayout
+ *
+ * 步骤：
+ * 1.初始化参数 设置方向等
+ * 2.根据一个变量（即动画执行进度）绘制高度
+ *
  */
 class ExpandLinearLayout : LinearLayout {
 

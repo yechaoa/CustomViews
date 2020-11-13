@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".progress.ProgressActivity"></activity>
+        <activity android:name=".randomtext.RandomTextActivity"></activity>
+        <activity android:name=".progress.ProgressActivity" />
         <activity android:name=".expand.ExpandActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

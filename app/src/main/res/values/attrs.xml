@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="randomText" format="string"/>
+    <attr name="randomTextColor" format="color"/>
+    <attr name="randomTextSize" format="dimension"/>
+
+    <declare-styleable name="RandomTextView" >
+        <attr name="randomText"/>
+        <attr name="randomTextColor"/>
+        <attr name="randomTextSize"/>
+    </declare-styleable>
+
+</resources>
