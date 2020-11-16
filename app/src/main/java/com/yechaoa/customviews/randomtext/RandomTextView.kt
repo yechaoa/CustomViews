@@ -18,73 +18,74 @@ import kotlin.random.Random
  *
  * 步骤：
  * 1.自定义属性
- * 2.获取自定义样式
- * 3.绘制宽高
- * 4.设置点击事件
- *
+ * 2.添加构造方法
+ * 3.在构造里获取自定义样式
+ * 4.重写onMeasure测量宽高
+ * 5.重写onDraw计算坐标绘制
+ * 6.设置点击事件
  */
 class RandomTextView : View {
 
-    private lateinit var mRandomText: String
+    //文本
+    private var mRandomText: String
+
+    //文本颜色
     private var mRandomTextColor: Int = 0
+
+    //文本字体大小
     private var mRandomTextSize: Int = 0
 
-    var paint = Paint()
+    private var paint = Paint()
+    private var bounds = Rect()
 
-    var rect = Rect()
-
-    //调用第二个构造
+    //调用两个参数的构造
     constructor(context: Context) : this(context, null)
 
-    //xml默认调用第二个构造，再调用第三个构造，在第三个构造里获取自定义属性
+    //xml默认调用两个参数的构造，再调用三个参数的构造，在三个参数构造里获取自定义属性
     constructor(context: Context, attributeSet: AttributeSet?) : this(
         context,
         attributeSet,
-        R.attr.randomText
+        0
     )
 
-    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context) {
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    ) {
         //获取自定义属性
-        val ta = context.theme.obtainStyledAttributes(
+        val typedArray = context.theme.obtainStyledAttributes(
             attributeSet,
             R.styleable.RandomTextView,
             defStyle,
             0
         )
 
-        for (index in 0 until ta.indexCount) {
-            val attr = ta.getIndex(index)
-            when (attr) {
-                R.styleable.RandomTextView_randomText -> {
-                    mRandomText = ta.getString(attr).toString()
-                }
-                R.styleable.RandomTextView_randomTextColor -> {
-                    mRandomTextColor = ta.getColor(attr, Color.BLACK)//默认黑色
-                }
-                R.styleable.RandomTextView_randomTextSize -> {
-                    // 默认值16sp，TypedValue可以把sp转为px
-                    mRandomTextSize = ta.getDimensionPixelSize(
-                        attr,
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_SP,
-                            16F,
-                            resources.displayMetrics
-                        ).toInt()
-                    )
-                }
-            }
-        }
+        mRandomText = typedArray.getString(R.styleable.RandomTextView_randomText).toString()
+        mRandomTextColor =
+            typedArray.getColor(R.styleable.RandomTextView_randomTextColor, Color.BLACK)//默认黑色
+        mRandomTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.RandomTextView_randomTextSize,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 16F, resources.displayMetrics
+            ).toInt()
+        )
 
-        ta.recycle()
+        //获取完回收
+        typedArray.recycle()
+
 
         paint.textSize = mRandomTextSize.toFloat()
 
-        paint.getTextBounds(mRandomText, 0, mRandomText.length, rect)
+        //返回文本边界，即包含文本的最小矩形，没有所谓“留白”，返回比measureText()更精确的text宽高，数据保存在bounds里
+        paint.getTextBounds(mRandomText, 0, mRandomText.length, bounds)
 
-
-        //添加点击事件
+        /**
+         * 添加点击事件
+         */
         this.setOnClickListener {
             mRandomText = randomText()
+            //更新
             postInvalidate()
         }
 
@@ -104,31 +105,32 @@ class RandomTextView : View {
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        var width: Int
-        var height: Int
+        var width = 0
+        var height = 0
 
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize
-        } else {
-            paint.textSize = mRandomTextSize.toFloat()
-            paint.getTextBounds(mRandomText, 0, mRandomText.length, rect)
-
-            val textWidth = rect.width()
-            val desiredWidth = paddingLeft + paddingRight + textWidth
-            width = desiredWidth
+        //如果指定了宽度，或不限制宽度，用可用宽度即可，如果是WARP_CONTENT，则用文本宽度，再加上左右padding
+        when (widthMode) {
+            MeasureSpec.UNSPECIFIED,
+            MeasureSpec.EXACTLY -> {
+                width = widthSize + paddingLeft + paddingRight
+            }
+            MeasureSpec.AT_MOST -> {
+                width = bounds.width() + paddingLeft + paddingRight
+            }
         }
 
-        if (heightMode == MeasureSpec.EXACTLY) {
-            height = heightSize
-        } else {
-            paint.textSize = mRandomTextSize.toFloat()
-            paint.getTextBounds(mRandomText, 0, mRandomText.length, rect)
-
-            val textHeight = rect.height()
-            val desiredHeight = paddingLeft + paddingRight + textHeight
-            height = desiredHeight
+        //如果指定了高度，或不限制高度，用可用高度即可，如果是WARP_CONTENT，则用文本高度，再加上上下padding
+        when (heightMode) {
+            MeasureSpec.UNSPECIFIED,
+            MeasureSpec.EXACTLY -> {
+                height = heightSize + paddingTop + paddingBottom
+            }
+            MeasureSpec.AT_MOST -> {
+                height = bounds.height() + paddingTop + paddingBottom
+            }
         }
 
+        //保存测量的宽高
         setMeasuredDimension(width, height)
     }
 
@@ -136,33 +138,45 @@ class RandomTextView : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        var width: Int = width //屏幕宽度
-        var height: Int = height //屏幕高度
-
-        //矩形背景
-        val bgRect = Rect(0, 0, width, height / 2)
+        /**
+         * 矩形背景
+         */
         paint.color = Color.YELLOW
-        canvas?.drawRect(bgRect, paint)
+        //计算坐标，因为原点是在文字的左下角，左边要是延伸出去就还要往左边去，所以是减，右边和下边是正，所以是加
+        canvas?.drawRect(
+            (0 - paddingLeft).toFloat(),
+            (0 - paddingTop).toFloat(),
+            (measuredWidth + paddingRight).toFloat(),
+            (measuredHeight + paddingBottom).toFloat(),
+            paint
+        )
 
+        /**
+         * 文本
+         */
         paint.color = mRandomTextColor
-        //注意这里的坐标xy不是左上角，而是左下角
+        //注意这里的坐标xy不是左上角，而是左下角，所以高度是相加的，在自定义view中，坐标轴右下为正
+        //getWidth 等于 measuredWidth
         canvas?.drawText(
-            mRandomText, (width / 2 - rect.width() / 2).toFloat(),
-            (height / 4 + rect.height() / 2).toFloat(), paint
+            mRandomText,
+            (width / 2 - bounds.width() / 2).toFloat(),
+            (height / 2 + bounds.height() / 2).toFloat(),
+            paint
         )
     }
 
+    /**
+     * 根据文本长度 随意数字
+     */
     private fun randomText(): String {
 
-        val hashSet = hashSetOf<Int>()
-
-        for (index in 0 until 4) {
-            hashSet.add(Random.nextInt(10))
+        val list = mutableListOf<Int>()
+        for (index in mRandomText.indices) {
+            list.add(Random.nextInt(10))
         }
 
         val stringBuffer = StringBuffer()
-
-        for (i in hashSet) {
+        for (i in list) {
             stringBuffer.append("" + i)
         }
 

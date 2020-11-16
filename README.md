@@ -10,9 +10,9 @@
 
 # 效果
 
-| <img src="/gif/expand.gif" width="285"/> | <img src="/gif/progress1.gif" width="285"/> |
-| :--: | :--: |
-| expand | 原生progress |
+| <img src="/gif/expand.gif" width="285"/> | <img src="/gif/progress1.gif" width="285"/> | <img src="/gif/randomText.gif" width="285"/> |
+| :--: | :--: | :--: |
+| expand | 原生progress | randomText |
 
 
 <br>
