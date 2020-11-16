@@ -12,7 +12,7 @@
 
 | <img src="/gif/expand.gif" width="285"/> | <img src="/gif/progress1.gif" width="285"/> | <img src="/gif/randomText.gif" width="285"/> |
 | :--: | :--: | :--: |
-| expand | 原生progress | randomText |
+| 展开收起、抽屉效果 | 进度条 | 随机数、验证码 |
 
 
 <br>
