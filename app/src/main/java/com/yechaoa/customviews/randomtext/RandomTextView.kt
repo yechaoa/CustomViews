@@ -139,6 +139,11 @@ class RandomTextView : View {
         super.onDraw(canvas)
 
         /**
+         * 自定义View时，需要我们自己在onDraw中处理padding，否则是不生效的
+         * 自定义ViewGroup时，子view的padding放在onMeasure中处理
+         */
+
+        /**
          * 矩形背景
          */
         paint.color = Color.YELLOW
