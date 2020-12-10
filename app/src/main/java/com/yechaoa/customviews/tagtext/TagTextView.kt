@@ -3,16 +3,16 @@ package com.yechaoa.customviews.tagtext
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.os.Build
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.RequiresApi
 import com.yechaoa.customviews.R
 import kotlinx.android.synthetic.main.item_text_tag.view.*
 
@@ -41,54 +41,55 @@ class TagTextView : androidx.appcompat.widget.AppCompatTextView {
         mContext = context
     }
 
-    fun setTagAndText(tags: List<String>, textColor: Int, bgColor: Int, text: String) {
-        val stringBuffer = StringBuffer()
+    fun setTagAndText(
+        tags: List<String>, textColor: Int, bgColor: Int,
+        text: String, startIndex: Int = 0, endIndex: Int = 0, titleColor: Int? = null
+    ) {
 
+        val spanBuilder = SpannableStringBuilder()
+
+        val stringBuffer = StringBuffer()
         //将每个tag的内容添加到text之前，之后将用drawable替代这些tag所占的位置
         tags.forEach {
             stringBuffer.append(it)
         }
-        stringBuffer.append(text)
-
-        val spannableString = SpannableString(stringBuffer)
+        var span = SpannableString(stringBuffer)
 
         tags.forEachIndexed { index, str ->
-
             val view = LayoutInflater.from(mContext).inflate(R.layout.item_text_tag, null)
-
             view.tv_tag.setTextColor(textColor)
             view.tv_tag.setBackgroundColor(bgColor)
             view.tv_tag.text = str
 
             //转为bitmap
             val bitmap = convertViewToBitmap(view)
-
             val bitmapDrawable = BitmapDrawable(resources, bitmap)
-
             //绘制位置
             bitmapDrawable.setBounds(0, 0, view.tv_tag.width, view.tv_tag.height)
 
             //图片将对齐底部边线
             val imageSpan = ImageSpan(bitmapDrawable, ImageSpan.ALIGN_BOTTOM)
-
-            val startIndex = getLastLength(tags, index)
-            val endIndex = startIndex + str.length
-
+            val start = getLastLength(tags, index)
+            val end = start + str.length
             /**
              * what：对SpannableString进行润色的各种Span；
              * int：需要润色文字段开始的下标；
              * end：需要润色文字段结束的下标；
              * flags：决定开始和结束下标是否包含的标志位，有四个参数可选，默认SPAN_EXCLUSIVE_EXCLUSIVE 含头不含尾
              */
-            spannableString.setSpan(
-                imageSpan,
-                startIndex,
-                endIndex,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            span.setSpan(imageSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        setText(spannableString)
+        spanBuilder.append(span)
+
+        span = SpannableString(text)
+        //endIndex!=0表示需要标题需要高亮
+        if (endIndex != 0) {
+            span.setSpan(ForegroundColorSpan(titleColor!!), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        spanBuilder.append(span)
+
+        setText(spanBuilder)
 
         gravity = Gravity.CENTER_VERTICAL
 

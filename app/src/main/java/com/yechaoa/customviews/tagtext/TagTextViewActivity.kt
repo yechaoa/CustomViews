@@ -24,13 +24,25 @@ class TagTextViewActivity : AppCompatActivity() {
         )
 
 
-        val list2 = listOf("标签", "标签", "标签")
+        val list2 = listOf("会员价", "促销", "抢购")
 
         tv_tag2.setTagAndText(
             list2,
             Color.parseColor("#1976D2"),
             Color.parseColor("#BBDEFB"),
             getString(R.string.test_string)
+        )
+
+        val list3 = listOf("标签")
+
+        tv_tag3.setTagAndText(
+            list3,
+            Color.parseColor("#388E3C"),
+            Color.parseColor("#C8E6C9"),
+            getString(R.string.test_string),
+            6,
+            8,
+            Color.parseColor("#4CAF50")
         )
     }
 }
