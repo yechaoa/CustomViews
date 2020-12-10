@@ -28,4 +28,11 @@
         android:text="randomText"
         android:textAllCaps="false"  />
 
+    <Button
+        android:id="@+id/btn_tagText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tagTextView"
+        android:textAllCaps="false"  />
+
 </LinearLayout>

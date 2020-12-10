@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.yechaoa.customviews.expand.ExpandActivity
 import com.yechaoa.customviews.progress.ProgressActivity
 import com.yechaoa.customviews.randomtext.RandomTextActivity
+import com.yechaoa.customviews.tagtext.TagTextViewActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         btn_randomText.setOnClickListener {
             startActivity(Intent(this, RandomTextActivity::class.java))
+        }
+
+        btn_tagText.setOnClickListener {
+            startActivity(Intent(this, TagTextViewActivity::class.java))
         }
 
     }
