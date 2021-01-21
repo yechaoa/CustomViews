@@ -20,8 +20,8 @@ import kotlin.random.Random
  * 1.自定义属性
  * 2.添加构造方法
  * 3.在构造里获取自定义样式
- * 4.重写onMeasure测量宽高
- * 5.重写onDraw计算坐标绘制
+ * 4.重写onDraw计算坐标绘制
+ * 5.重写onMeasure测量宽高
  * 6.设置点击事件
  */
 class RandomTextView : View {
@@ -42,17 +42,9 @@ class RandomTextView : View {
     constructor(context: Context) : this(context, null)
 
     //xml默认调用两个参数的构造，再调用三个参数的构造，在三个参数构造里获取自定义属性
-    constructor(context: Context, attributeSet: AttributeSet?) : this(
-        context,
-        attributeSet,
-        0
-    )
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
-    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
-        context,
-        attributeSet,
-        defStyle
-    ) {
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context, attributeSet, defStyle) {
         //获取自定义属性
         val typedArray = context.theme.obtainStyledAttributes(
             attributeSet,
@@ -62,13 +54,10 @@ class RandomTextView : View {
         )
 
         mRandomText = typedArray.getString(R.styleable.RandomTextView_randomText).toString()
-        mRandomTextColor =
-            typedArray.getColor(R.styleable.RandomTextView_randomTextColor, Color.BLACK)//默认黑色
+        mRandomTextColor = typedArray.getColor(R.styleable.RandomTextView_randomTextColor, Color.BLACK)//默认黑色
         mRandomTextSize = typedArray.getDimensionPixelSize(
             R.styleable.RandomTextView_randomTextSize,
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, 16F, resources.displayMetrics
-            ).toInt()
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16F, resources.displayMetrics).toInt()
         )
 
         //获取完回收
