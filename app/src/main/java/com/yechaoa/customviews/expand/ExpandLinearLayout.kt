@@ -14,7 +14,7 @@ import androidx.core.view.marginTop
  *
  * 步骤：
  * 1.初始化参数 设置方向等
- * 2.根据一个变量（即动画执行进度）绘制高度
+ * 2.根据动画执行进度计算高度
  *
  */
 class ExpandLinearLayout : LinearLayout {
@@ -27,6 +27,15 @@ class ExpandLinearLayout : LinearLayout {
 
     //所有子view高度，即总高度
     private var allChildHeight = 0
+
+    /**
+     * 动画值改变的时候 请求重新布局
+     */
+    private var animPercent: Float = 0f
+        set(value) {
+            field = value
+            requestLayout()
+        }
 
     constructor(context: Context) : super(context) {
         initView()
@@ -43,15 +52,6 @@ class ExpandLinearLayout : LinearLayout {
     ) {
         initView()
     }
-
-    /**
-     * 值改变的时候 请求重新布局
-     */
-    private var animPercent: Float = 0f
-        set(value) {
-            field = value
-            requestLayout()
-        }
 
     private fun initView() {
         //横向的话 稍加修改计算宽度即可
@@ -74,7 +74,9 @@ class ExpandLinearLayout : LinearLayout {
             for (index in 0 until childCount) {
                 //这个地方实际使用中除了measuredHeight，以及margin等，也要计算在内
                 if (index == 0) {
-                    firstChildHeight = getChildAt(index).measuredHeight + this.paddingTop + this.paddingBottom
+                    firstChildHeight = getChildAt(index).measuredHeight
+                    +getChildAt(index).marginTop + getChildAt(index).marginBottom
+                    +this.paddingTop + this.paddingBottom
                 }
                 //实际使用时或包括padding等
                 allChildHeight += getChildAt(index).measuredHeight + getChildAt(index).marginTop + getChildAt(index).marginBottom
