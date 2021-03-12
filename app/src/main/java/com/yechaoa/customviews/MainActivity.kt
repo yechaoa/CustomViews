@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.yechaoa.customviews.expand.ExpandActivity
+import com.yechaoa.customviews.palette.PaletteActivity
 import com.yechaoa.customviews.progress.ProgressActivity
 import com.yechaoa.customviews.randomtext.RandomTextActivity
 import com.yechaoa.customviews.tagtext.TagTextViewActivity
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         btn_tagText.setOnClickListener {
             startActivity(Intent(this, TagTextViewActivity::class.java))
+        }
+
+        btn_palette.setOnClickListener {
+            startActivity(Intent(this, PaletteActivity::class.java))
         }
 
     }
