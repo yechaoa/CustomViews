@@ -11,7 +11,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:alpha">0.8</item>
-        <item name="android:background">#0A7CF0</item>
+        <item name="android:background">@drawable/selector_btn</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginTop">16dp</item>

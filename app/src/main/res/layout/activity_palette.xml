@@ -6,4 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".palette.PaletteActivity">
 
+    <com.yechaoa.customviews.palette.PaletteView
+        android:id="@+id/palette_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/ll_menu2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_red"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="线条红色" />
+
+        <Button
+            android:id="@+id/btn_green"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="线条绿色" />
+
+        <Button
+            android:id="@+id/btn_width"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="线条加粗" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_menu2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_clear"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="橡皮擦" />
+
+        <Button
+            android:id="@+id/btn_revert"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="撤回" />
+
+        <Button
+            android:id="@+id/btn_reset"
+            style="@style/MainBtn"
+            android:layout_weight="1"
+            android:text="清空" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

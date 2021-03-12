@@ -7,28 +7,28 @@
     tools:context=".MainActivity">
 
     <Button
-        style="@style/MainBtn"
         android:id="@+id/btn_expand"
+        style="@style/MainBtn"
         android:text="@string/expand_layout" />
 
     <Button
-        style="@style/MainBtn"
         android:id="@+id/btn_progress"
-        android:text="@string/progress"  />
+        style="@style/MainBtn"
+        android:text="@string/progress" />
 
     <Button
-        style="@style/MainBtn"
         android:id="@+id/btn_randomText"
+        style="@style/MainBtn"
         android:text="@string/random_text" />
 
     <Button
         android:id="@+id/btn_tagText"
         style="@style/MainBtn"
-        android:text="@string/tag_text_view"  />
+        android:text="@string/tag_text_view" />
 
     <Button
-        style="@style/MainBtn"
         android:id="@+id/btn_palette"
-        android:text="@string/palette_view"/>
+        style="@style/MainBtn"
+        android:text="@string/palette_view" />
 
 </LinearLayout>
