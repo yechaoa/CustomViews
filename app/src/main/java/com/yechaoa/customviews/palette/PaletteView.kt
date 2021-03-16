@@ -3,10 +3,17 @@ package com.yechaoa.customviews.palette
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Environment
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.ColorInt
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by yechao on 2021/3/12.
@@ -14,9 +21,11 @@ import androidx.annotation.ColorInt
  */
 class PaletteView : View {
 
+    private val tag = this.javaClass.name
+
     private var mPaint: Paint = Paint()
     private lateinit var mPath: Path
-    private var mPathList = mutableListOf<Path>()
+    private var mPaletteList = mutableListOf<PaletteInfo>()
 
     //起始位置
     private var startX: Float = 0f
@@ -25,6 +34,11 @@ class PaletteView : View {
     //结束位置
     private var stopX = 0f
     private var stopY = 0f
+
+    private lateinit var cacheBitmap: Bitmap  //定义一个内存中的图片，该图片作为缓冲区
+    private lateinit var cacheCanvas: Canvas //定义cacheBitmap上的Canvas对象
+
+    class PaletteInfo constructor(var path: Path, var paint: Paint)
 
     constructor(context: Context) : super(context) {
         init()
@@ -40,6 +54,8 @@ class PaletteView : View {
     }
 
     private fun init() {
+
+
         initPaint()
     }
 
@@ -69,12 +85,17 @@ class PaletteView : View {
                 startX = currX
                 startY = currY
 
+                if (!::cacheBitmap.isInitialized) {
+                    initCache()
+                }
+
                 mPath = Path()
                 //加到集合里，保存每一次轨迹
-                mPathList.add(mPath)
+                mPaletteList.add(PaletteInfo(Path(mPath), Paint(mPaint)))
 
                 //每一次开始的起始位置
                 mPath.moveTo(currX, currY)
+
             }
             MotionEvent.ACTION_MOVE -> {
                 stopX = currX
@@ -85,23 +106,43 @@ class PaletteView : View {
                 //再次赋值 更新位置
                 startX = currX
                 startY = currY
+
+                cacheCanvas.drawPath(mPath, mPaint)
+                invalidate()
             }
             MotionEvent.ACTION_UP -> {
-
+                //重置
+                mPath.reset()
             }
         }
-        invalidate()
+        //invalidate()
         return true
     }
 
+    private fun initCache() {
+        //创建一个相同大小的缓存区
+        cacheBitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        //一个新的画布
+        cacheCanvas = Canvas()
+        cacheCanvas.setBitmap(cacheBitmap)
+    }
+
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.let {
             it.drawColor(Color.WHITE)
-            mPathList.forEach { path ->
-                it.drawPath(path, mPaint)
+
+//            mPaletteList.forEach { info ->
+//                it.drawPath(info.path, info.paint)
+//            }
+
+            if (::cacheBitmap.isInitialized) {
+                it.drawBitmap(cacheBitmap, 0f, 0f, null)
             }
-            it.save()
+
+//            it.save()
+//            it.restore()
         }
     }
 
@@ -110,7 +151,7 @@ class PaletteView : View {
      */
     fun setPaintColor(@ColorInt color: Int) {
         initPaint()
-        //取消橡皮擦效果
+        //清除 xfermode 取消橡皮擦效果
         mPaint.xfermode = null
         mPaint.color = color
     }
@@ -130,15 +171,20 @@ class PaletteView : View {
         mPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         //橡皮擦的时候可以适当加大，实际项目中应该是SeekBar调节
         mPaint.strokeWidth = 50f
-        mPaint.color = Color.TRANSPARENT
     }
 
     /**
      * 撤回
      */
     fun revert() {
-        if (mPathList.size > 0) {
-            mPathList.last { mPathList.remove(it) }
+        if (mPaletteList.size > 0) {
+            Log.i(tag, "revert---" + mPaletteList.size)
+            mPaletteList.removeAt(mPaletteList.size - 1)
+//            drawCache()
+//            cacheBitmap.eraseColor(Color.TRANSPARENT)
+            mPaletteList.forEach {
+                cacheCanvas.drawPath(it.path, it.paint)
+            }
             invalidate()
         }
     }
@@ -147,11 +193,47 @@ class PaletteView : View {
      * 清空
      */
     fun reset() {
-        if (mPathList.size > 0) {
-            mPathList.removeAll {
-                invalidate()
-                return@removeAll true
-            }
+        if (mPaletteList.size > 0) {
+            cacheBitmap.eraseColor(Color.TRANSPARENT)
+            invalidate()
         }
+    }
+
+    private fun drawCache() {
+        Log.i(tag, "drawCache---" + mPaletteList.size)
+        cacheBitmap.eraseColor(Color.TRANSPARENT)
+        mPaletteList.forEach {
+            cacheCanvas.drawPath(it.path, it.paint)
+        }
+        invalidate()
+    }
+
+    /**
+     * 保存
+     * \内部存储\Android\data\com.fr.lawappandroid\files\Pictures
+     */
+    fun save() {
+        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        var file: File? = null
+        try {
+            // prefix 前缀 , suffix 后缀 , directory 目录
+            file = File.createTempFile(getFileName(), ".png", storageDir)
+            val out = FileOutputStream(file)
+            cacheBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.flush()
+            out.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Toast.makeText(context, file?.name, Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * 时间戳文件名
+     * filename="JPEG_20201222_115650_6934479097884473000.jpg
+     */
+    private fun getFileName(): String {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "PIC_" + timeStamp + "_"
     }
 }

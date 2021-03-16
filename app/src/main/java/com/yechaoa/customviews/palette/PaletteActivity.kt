@@ -11,8 +11,9 @@ class PaletteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_palette)
 
-        setListener()
+        setSupportActionBar(toolbar)
 
+        setListener()
     }
 
     private fun setListener() {
@@ -38,6 +39,10 @@ class PaletteActivity : AppCompatActivity() {
 
         btn_reset.setOnClickListener {
             palette_view.reset()
+        }
+
+        tv_save.setOnClickListener {
+            palette_view.save()
         }
     }
 }
