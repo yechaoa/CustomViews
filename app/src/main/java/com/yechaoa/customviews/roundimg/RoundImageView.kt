@@ -52,12 +52,16 @@ class RoundImageView : AppCompatImageView {
             // 画圆角
             val path = Path()
             path.moveTo(mCornerSize, 0f)
+            //右上
             path.lineTo(mWidth - mCornerSize, 0f)
             path.quadTo(mWidth, 0f, mWidth, mCornerSize)
+            //右下
             path.lineTo(mWidth, mHeight - mCornerSize)
             path.quadTo(mWidth, mHeight, mWidth - mCornerSize, mHeight)
+            //左下
             path.lineTo(mCornerSize, mHeight)
             path.quadTo(0f, mHeight, 0f, mHeight - mCornerSize)
+            //左上
             path.lineTo(0f, mCornerSize)
             path.quadTo(0f, 0f, mCornerSize, 0f)
             canvas?.clipPath(path)
