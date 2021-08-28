@@ -13,8 +13,8 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import com.yechaoa.customviews.R
-import kotlinx.android.synthetic.main.item_text_tag.view.*
 
 
 /**
@@ -57,15 +57,16 @@ class TagTextView : androidx.appcompat.widget.AppCompatTextView {
 
         tags.forEachIndexed { index, str ->
             val view = LayoutInflater.from(mContext).inflate(R.layout.item_text_tag, null)
-            view.tv_tag.setTextColor(textColor)
-            view.tv_tag.setBackgroundColor(bgColor)
-            view.tv_tag.text = str
+            val tvTag = view.findViewById<TextView>(R.id.tv_tag)
+            tvTag.setTextColor(textColor)
+            tvTag.setBackgroundColor(bgColor)
+            tvTag.text = str
 
             //转为bitmap
             val bitmap = convertViewToBitmap(view)
             val bitmapDrawable = BitmapDrawable(resources, bitmap)
             //绘制位置
-            bitmapDrawable.setBounds(0, 0, view.tv_tag.width, view.tv_tag.height)
+            bitmapDrawable.setBounds(0, 0, tvTag.width, tvTag.height)
 
             //图片将对齐底部边线
             val imageSpan = ImageSpan(bitmapDrawable, ImageSpan.ALIGN_BOTTOM)

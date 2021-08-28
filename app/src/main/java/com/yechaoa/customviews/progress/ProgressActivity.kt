@@ -3,25 +3,26 @@ package com.yechaoa.customviews.progress
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.yechaoa.customviews.R
-import kotlinx.android.synthetic.main.activity_progress.*
+import com.yechaoa.customviews.databinding.ActivityProgressBinding
 
 class ProgressActivity : AppCompatActivity() {
+
+    private val mBinding by lazy { ActivityProgressBinding.inflate(layoutInflater) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_progress)
+        setContentView(mBinding.root)
 
-        tv_tip.text = "最大："+progress_bar.max+"   当前："+progress_bar.progress
+        mBinding.tvTip.text = "最大：" + mBinding.progressBar.max + "   当前：" + mBinding.progressBar.progress
 
-        btn_add.setOnClickListener {
-            progress_bar.progress += 10
-            tv_tip.text = "最大："+progress_bar.max+"   当前："+progress_bar.progress
+        mBinding.btnAdd.setOnClickListener {
+            mBinding.progressBar.progress += 10
+            mBinding.tvTip.text = "最大：" + mBinding.progressBar.max + "   当前：" + mBinding.progressBar.progress
         }
-        btn_subtract.setOnClickListener {
-            progress_bar.progress -= 10
-            tv_tip.text = "最大："+progress_bar.max+"   当前："+progress_bar.progress
+        mBinding.btnSubtract.setOnClickListener {
+            mBinding.progressBar.progress -= 10
+            mBinding.tvTip.text = "最大：" + mBinding.progressBar.max + "   当前：" + mBinding.progressBar.progress
         }
 
     }

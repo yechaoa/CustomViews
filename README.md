@@ -4,9 +4,7 @@
 ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](https://img.shields.io/badge/CSDN-yechaoa-green.svg)
 
-后续会慢慢增加，常用的以及一些练习的自定义view。
-
-会尽可能多的注释，练习亦是学习的过程。
+后续会慢慢增加一些常用自定义view。
 
 # 效果
 
@@ -14,6 +12,9 @@
 | :--: | :--: | :--: |
 | 展开收起、抽屉效果 | 进度条 | 随机数、验证码 |
 
+| <img src="/gif/roundimg.png" width="285"/> |
+| :--: | :--: | :--: |
+| 圆角ImageView |
 
 <br>
 

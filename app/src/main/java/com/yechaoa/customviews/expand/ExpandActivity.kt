@@ -1,21 +1,23 @@
 package com.yechaoa.customviews.expand
 
 import android.animation.ObjectAnimator
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import com.yechaoa.customviews.R
-import kotlinx.android.synthetic.main.activity_expand.*
+import androidx.appcompat.app.AppCompatActivity
+import com.yechaoa.customviews.databinding.ActivityExpandBinding
 
 class ExpandActivity : AppCompatActivity() {
+
+    private val mBinding by lazy { ActivityExpandBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expand)
+        setContentView(mBinding.root)
 
-        ll_btn.setOnClickListener {
-            val toggle = ell.toggle()
-            tv_tip.text = if (toggle) "收起" else "展开"
-            startImageRotate(iv_arrow, toggle)
+        mBinding.llBtn.setOnClickListener {
+            val toggle = mBinding.ell.toggle()
+            mBinding.tvTip.text = if (toggle) "收起" else "展开"
+            startImageRotate(mBinding.ivArrow, toggle)
         }
     }
 
