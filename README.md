@@ -12,9 +12,9 @@
 | :--: | :--: | :--: |
 | 展开收起、抽屉效果 | 进度条 | 随机数、验证码 |
 
-| <img src="/gif/roundimg.png" width="285"/> |
-| :--: | :--: | :--: |
-| 圆角ImageView |
+| <img src="/gif/roundimg.png" width="285"/> | <img src="/gif/paletteView.png" width="285"/> |
+| :--: | :--: |
+| 圆角ImageView | 画板 |
 
 <br>
 

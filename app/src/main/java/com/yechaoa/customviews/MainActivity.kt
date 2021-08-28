@@ -1,10 +1,11 @@
 package com.yechaoa.customviews
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import com.yechaoa.customviews.databinding.ActivityMainBinding
 import com.yechaoa.customviews.expand.ExpandActivity
+import com.yechaoa.customviews.palette.PaletteActivity
 import com.yechaoa.customviews.progress.ProgressActivity
 import com.yechaoa.customviews.randomtext.RandomTextActivity
 import com.yechaoa.customviews.roundimg.RoundImageViewActivity
@@ -32,6 +33,10 @@ class MainActivity : AppCompatActivity() {
 
         mBinding.btnTagText.setOnClickListener {
             startActivity(Intent(this, TagTextViewActivity::class.java))
+        }
+
+        mBinding.btnPalette.setOnClickListener {
+            startActivity(Intent(this, PaletteActivity::class.java))
         }
 
         mBinding.btnRoundImage.setOnClickListener {

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">CustomViews</string>
     <string name="test_string">深色主题将会降低设备屏幕的显示亮度，同时仍保持最低程度的色彩对比度。它将会从人体工程学的角度提升设计，有效地减少视觉疲劳，并根据当前环境适应性地调整亮度，并在黑暗的环境中提升屏幕的使用效果，同时节省电量。使用 OLED 屏幕的设备可以在任何时候确保黑色像素是不发光的</string>
+    <string name="expand_layout">ExpandLinearLayout</string>
+    <string name="progress">Progress</string>
+    <string name="random_text">RandomText</string>
+    <string name="tag_text_view">TagTextView</string>
+    <string name="palette_view">PaletteView</string>
+    <string name="round_image_view">RoundImageView</string>
 </resources>

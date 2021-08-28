@@ -8,37 +8,32 @@
 
     <Button
         android:id="@+id/btn_expand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ExpandLinearLayout"
-        android:textAllCaps="false" />
+        style="@style/MainBtn"
+        android:text="@string/expand_layout" />
 
     <Button
         android:id="@+id/btn_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Progress"
-        android:textAllCaps="false" />
+        style="@style/MainBtn"
+        android:text="@string/progress" />
 
     <Button
         android:id="@+id/btn_randomText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RandomTextView"
-        android:textAllCaps="false" />
+        style="@style/MainBtn"
+        android:text="@string/random_text" />
 
     <Button
         android:id="@+id/btn_tagText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TagTextView"
-        android:textAllCaps="false" />
+        style="@style/MainBtn"
+        android:text="@string/tag_text_view" />
+
+    <Button
+        android:id="@+id/btn_palette"
+        style="@style/MainBtn"
+        android:text="@string/palette_view" />
 
     <Button
         android:id="@+id/btn_roundImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RoundImageView"
-        android:textAllCaps="false" />
+        style="@style/MainBtn"
+        android:text="@string/round_image_view" />
 
 </LinearLayout>
